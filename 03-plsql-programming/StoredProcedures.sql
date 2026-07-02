@@ -1,20 +1,23 @@
 SET SERVEROUTPUT ON;
 
-CREATE OR REPLACE PROCEDURE SquareNum(
-    n IN NUMBER,
-    s OUT NUMBER
-)
+CREATE OR REPLACE PROCEDURE ProcessMonthlyInterest
 AS
 BEGIN
-    s := n * n;
+
+    UPDATE Accounts
+    SET Balance = Balance + (Balance * 0.01)
+    WHERE AccountType = 'Savings';
+
+    COMMIT;
+
+    DBMS_OUTPUT.PUT_LINE('Monthly Interest Applied Successfully');
+
 END;
 /
 
-DECLARE
-    num NUMBER := 6;
-    ans NUMBER;
 BEGIN
-    SquareNum(num, ans);
-    DBMS_OUTPUT.PUT_LINE('Square = ' || ans);
+
+    ProcessMonthlyInterest;
+
 END;
 /
